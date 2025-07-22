@@ -7,6 +7,9 @@ import { apiRequest } from "@/lib/queryClient";
 import bgGame from "../assets/bgWheel.png";
 import wayCome from "../font/WayCome.otf"
 
+
+
+
 interface ScratchCardData {
   id: number;
   isWinner: boolean;
@@ -39,9 +42,12 @@ export default function Game() {
 
 
   const [, setLocation] = useLocation();
+  const [hoveredContent, setHoveredContent] = useState(null);
+
 
   // Security: Check for registered user data
   const [userRegistrationData, setUserRegistrationData] = useState<any>(null);
+  
   
   useEffect(() => {
     // Check if user came from registration
@@ -530,12 +536,12 @@ export default function Game() {
       {/* Lose Popup for First Card */}
       {showLosePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-3xl max-w-md w-full mx-4 shadow-2xl animate-float">
+          <div className="bg-gradient-to-br from-blue-500 to-orange-500 p-4 rounded-3xl max-w-md w-full mx-4 shadow-2xl animate-float">
             <div className="bg-white rounded-2xl p-6 text-center">
               <div className="text-5xl mb-4 animate-wiggle">😅</div>
               
               <h3
-                className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 animate-pulse"
+                className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-blue-500 "
                 style={wayComeFontStyle}
               >
                 OOPS!
@@ -644,101 +650,55 @@ export default function Game() {
 
       {/* Winner Modal */}
       {gameComplete && winnerCard && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-3 sm:p-4 md:p-6">
-          <div className="bg-gradient-to-br from-blue-500 to-orange-500 p-3 sm:p-4 md:p-5 rounded-3xl max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl w-full mx-3 sm:mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-7 lg:p-8 text-center relative overflow-hidden">
-              <div className="relative z-10">
-                {/* Trophy and celebration */}
-                <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4 md:mb-5 animate-bounce">
-                  🏆
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 md:mb-5">🎉 🎊 🎉</div>
+  <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-3">
+    <div className="bg-gradient-to-br from-blue-500 to-orange-500 p-3 rounded-2xl w-full max-w-md mx-3 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl p-4 text-center relative overflow-hidden">
+        {/* Trophy and confetti */}
+        <div className="text-3xl mb-2 animate-bounce">🏆</div>
+        <div className="text-2xl mb-2">🎉 🎊 🎉</div>
+        <div className="text-2xl mb-2 bg-gradient-to-r from-yellow-600 to-red-600 text-transparent bg-clip-text"> WINNER </div>
 
-                <h3
-                  className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 md:mb-5 text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-red-600"
-                  style={wayComeFontStyle}
-                >
-                  WINNER!
-                </h3>
+        {/* Prize box */}
+        <div className="bg-gradient-to-r from-green-100 to-green-200 p-3 rounded-lg mb-3 shadow-inner border">
+          <h4 className="text-lg  text-green-800 mb-1">🎁 CONGRATULATIONS!</h4>
+          <p className="text-sm text-blue-600 font-medium mb-1">
+            You matched 3 "Dishwasher New Water Valve Installation" prizes!
+          </p>
+          <p className="text-lg  text-green-700">$591 VALUE</p>
+        </div>
 
-                <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 sm:p-5 md:p-6 rounded-xl mb-4 sm:mb-5 md:mb-6 shadow-inner border-2 border-green-200">
-                  <h4
-                    className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 md:mb-4 text-green-800"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    🎁 CONGRATULATIONS!
-                  </h4>
-                  <p
-                    className="text-sm sm:text-base md:text-lg font-semibold text-blue-600 mb-2 sm:mb-3 md:mb-4"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    You matched 3 "Dishwasher New Water Valve Installation"
-                    prizes!
-                  </p>
-                  <p
-                    className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    TOTAL VALUE: $591
-                  </p>
-                </div>
+        {/* Call-to-action */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-lg mb-3 shadow-md">
+          <h4 className="text-base  mb-2">🔥 CLAIM YOUR PRIZE!</h4>
+          <div className="bg-white text-gray-900 p-2 rounded shadow-inner mb-2">
+            <p className="text-sm font-semibold text-blue-600">📞 CALL NOW</p>
+            <p className="text-lg  text-green-600">(310) 295-6355</p>
+          </div>
+          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-2 rounded shadow-inner">
+            <p className="text-xs font-light" style={{
+              fontWeight: "bold",
+              fontFamily: "Montserrat, sans-serif",
 
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 sm:p-5 md:p-6 rounded-xl mb-4 sm:mb-5 md:mb-6 shadow-lg">
-                  <h4
-                    className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4 md:mb-5"
-                    style={wayComeFontStyle}
-                  >
-                    🔥 CLAIM YOUR PRIZE NOW!
-                  </h4>
-                  <div className="bg-white text-gray-900 p-3 sm:p-4 md:p-5 rounded-lg shadow-inner mb-3 sm:mb-4 md:mb-5">
-                    <p
-                      className="text-base sm:text-lg md:text-xl font-bold text-blue-600 mb-2"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      📞 CALL NOW
-                    </p>
-                    <p
-                      className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      (310) 295-6355
-                    </p>
-                  </div>
-                  
-                  {/* Email Notification Message */}
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-3 sm:p-4 rounded-lg shadow-inner">
-                    <p
-                      className="text-sm sm:text-base font-semibold mb-1"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      ✉️ Check Your Email!
-                    </p>
-                    <p
-                      className="text-xs sm:text-sm"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      A confirmation email with prize details has been sent to your registered email address.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => {
-                      setShowConfetti(false);
-                      setLocation("/");
-                    }}
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 sm:py-4 md:py-5 px-8 sm:px-10 md:px-12 rounded-lg transition-colors text-base sm:text-lg md:text-xl"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    Back to Home
-                  </button>
-                </div>
-              </div>
-            </div>
+            }}>✉️ Check your email for confirmation!</p>
           </div>
         </div>
-      )}
+
+        {/* Button */}
+        <button
+          onClick={() => {
+            setShowConfetti(false);
+            localStorage.removeItem("userRegistrationData");
+            setLocation("/");
+          }}
+          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white  py-2 px-6 rounded-lg text-sm"
+        >
+          Back to Home
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {/* Confetti */}
       {showConfetti && <Confetti />}
@@ -805,12 +765,23 @@ function ScratchOffCard({
   const [scratchedCells, setScratchedCells] = useState<boolean[]>(
     card.scratches,
   );
+  const [hoveredContent, setHoveredContent] = useState(null);
+
 
   const handleCellScratch = (index: number) => {
     const newScratched = [...scratchedCells];
     newScratched[index] = true;
     setScratchedCells(newScratched);
     onScratch(card.id, index);
+    // console.log("Cell scratched:", card.prizes);
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    setHoveredContent(
+      hidePrizes ? "?" : `${card.prizes[index]} ${card.prizeValues[index]}`
+    );
+    setTimeout(() => setHoveredContent(null), 3000);
+
+  }
   };
 
   useEffect(() => {
@@ -837,6 +808,20 @@ function ScratchOffCard({
             backgroundPosition: "center",
           }}
         ></div>
+        {hoveredContent && (
+          <div className="fixed top-4 left-4 z-50 bg-yellow-400 text-black border-2 border-yellow-400 p-4 rounded shadow-lg w-40 h-40">
+            <div className="text-black text-sm flex text leading-tight"   style={{
+            fontWeight: "lighter",
+            fontFamily: "Montserrat, sans-serif",
+            fontSize: "0.8rem",
+            lineHeight: "1.5",
+            textAlign: "center",
+          }}>
+              {hoveredContent}
+            </div>
+          </div>
+        )}
+
 
         {/* Inner content area */}
         <div className="absolute inset-4  rounded-full flex flex-col items-center justify-center p-3 md:p-4">
@@ -874,16 +859,17 @@ function ScratchOffCard({
               & YOU WIN!
             </p>
           </div>
-
+              
           {/* Scratch Grid */}
           <div className="grid grid-cols-3 gap-1 mb-3 md:mb-4">
             {Array.from({ length: 9 }).map((_, index) => (
               <div
                 key={index}
-                className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 border-2 border-yellow-400 relative overflow-hidden"
+              
+                className="w-10 h-10 md:w-12  md:h-12 lg:w-14 lg:h-14 border-2 border-yellow-400 relative overflow-hidden"
               >
                 {scratchedCells[index] ? (
-                  <div className="w-full h-full bg-yellow-400 text-black flex items-center justify-center p-0.5 overflow-hidden">
+                  <div className="w-full h-full  bg-yellow-400 text-black flex items-center justify-center p-0.5 overflow-hidden">
                     <div
                       className="text-center w-full h-full flex flex-col justify-center"
                       style={{ fontFamily: "Montserrat, sans-serif" }}

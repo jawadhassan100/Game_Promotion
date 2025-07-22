@@ -398,9 +398,9 @@ export default function RegistrationForm({
       {/* Eye-catching Email Already Exists Warning Popup */}
       {showEmailWarning && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl transform animate-pulse">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl transform ">
             {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 rounded-3xl animate-pulse opacity-20"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 rounded-3xl animate-pulse opacity-20"></div> */}
             
             {/* Warning Icon */}
             <div className="relative text-center mb-6">
@@ -455,8 +455,10 @@ export default function RegistrationForm({
             {/* Action Buttons */}
             <div className="flex flex-col space-y-3">
               <Button
-                onClick={() => setShowEmailWarning(false)}
-                className="w-full bg-gradient-to-r from-[#F76D46] to-[#2C5CDC] hover:from-[#F76D46] hover:to-[#2C5CDC] text-white font-black py-4 px-6 rounded-xl transform hover:scale-105 transition-all duration-300 shadow-lg"
+                onClick={() => { 
+                  setShowEmailWarning(false)
+                }}
+                className="w-full cursor-pointer bg-gradient-to-r from-[#F76D46] to-[#2C5CDC] hover:from-[#F76D46] hover:to-[#2C5CDC] text-white font-black py-4 px-6 rounded-xl transform hover:scale-105 transition-all duration-300 shadow-lg"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 <CheckCircle className="mr-2" size={20} />
@@ -469,7 +471,7 @@ export default function RegistrationForm({
                   form.reset();
                 }}
                 variant="outline"
-                className="w-full border-2 border-gray-300 hover:border-[#2C5CDC] text-gray-700 font-bold py-3 px-6 rounded-xl transition-all duration-300"
+                className="w-full cursor-pointer border-2 border-gray-300 hover:border-[#2C5CDC] text-gray-700 font-bold py-3 px-6 rounded-xl transition-all duration-300"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 <Mail className="mr-2" size={16} />

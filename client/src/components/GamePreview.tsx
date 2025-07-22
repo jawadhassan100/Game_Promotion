@@ -40,11 +40,11 @@ export default function GamePreview() {
             </p>
             <p className="text-[hsl(225,47%,32%)] font-semibold text-xl">
               is already Protecting{" "}
-             <span className="text-[hsl(16,100%,64%)]">
-  {stats?.registrationCount
-    ? `${stats.registrationCount.toLocaleString()}+`
-    : "Loading..."}
-</span>
+               <span className="text-[hsl(16,100%,64%)]">
+                {stats?.registrationCount
+                  ? `${Math.max(300000, stats.registrationCount).toLocaleString()}+`
+                  : "300,000+"}
+              </span>{" "}
               Home Owners nationwide
             </p>
           </div>

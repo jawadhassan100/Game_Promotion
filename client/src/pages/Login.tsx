@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-// import type { LoginData } from "@shared/schema";
 import { z } from "zod";
 
 
@@ -161,15 +160,6 @@ export default function Login() {
               )}
             </Button>
           </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Default credentials:
-            </p>
-            <p className="text-xs text-gray-400 mt-1" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              admin@doneforyoupros.com / password@security
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>

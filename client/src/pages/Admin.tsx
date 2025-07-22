@@ -18,7 +18,6 @@ import {
    X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-// import type { Registration,  UpdateUserData } from "@shared/schema";
 import logoPath from "../assets/logo.png";
 
 type UpdateUserData = {
@@ -674,7 +673,7 @@ export default function Admin() {
                 onClick={() => logoutMutation.mutate()}
                 variant="outline"
                 size="sm"
-                className="bg-red-500/20 hover:bg-red-500/30 border-red-300/50 text-red-100 hover:text-white backdrop-blur-sm"
+                className="bg-red-500/20 cursor-pointer hover:bg-red-500/30 border-red-300/50 text-red-100 hover:text-white backdrop-blur-sm"
                 disabled={logoutMutation.isPending}
               >
                 <LogOut className="w-4 h-4 mr-2" />

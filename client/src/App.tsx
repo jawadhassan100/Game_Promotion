@@ -9,14 +9,13 @@ import Admin from "@/pages/Admin";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 import './App.css'
-import ProtectedRoute from "./secure/ProtectedRoute";
-
+import { useEffect } from "react";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/game" component={() => <ProtectedRoute component={Game} />} />
+      <Route path="/game"  component={Game} />
       <Route path="/admin" component={Admin} />
       <Route path="/login" component={Login} />
       <Route component={NotFound} />
@@ -25,6 +24,11 @@ function Router() {
 }
 
 function App() {
+
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

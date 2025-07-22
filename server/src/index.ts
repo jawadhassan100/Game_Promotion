@@ -4,22 +4,38 @@ import { registerRoutes } from "./routes";
 import dotenv from "dotenv";
 dotenv.config();
 import { storage } from "./storage";
+import pg from 'pg';
+import pgSession from "connect-pg-simple";
+
+const pgPool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const PgSessionStore = pgSession(session);
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Configure session middleware
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'doneforyoupros-admin-secret-key-2025',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, // Set to true in production with HTTPS
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
+app.use(
+  session({
+    store: new PgSessionStore({
+      pool: pgPool,
+      tableName: "session",
+      // set to true to automatically prune expired sessions
+      pruneSessionInterval: 60 * 60, // every hour
+    }),
+    secret: process.env.SESSION_SECRET || "your-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 5, // 5 hours session cookie
+      secure: false, // set true if HTTPS
+      httpOnly: true,
+    },
+  })
+);
 
 app.use((req, res, next) => {
   const start = Date.now();
