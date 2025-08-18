@@ -82,6 +82,9 @@ app.use((req, res, next) => {
     throw err;
   });
 
+  app.get("/", (_, res) => {
+  res.send("Backend running on Railway 🚂");
+});
 
  
   const port = 3000;

@@ -650,7 +650,7 @@ export default function Game() {
 
       {/* Winner Modal */}
       {gameComplete && winnerCard && (
-  <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-3">
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3">
     <div className="bg-gradient-to-br from-blue-500 to-orange-500 p-3 rounded-2xl w-full max-w-md mx-3 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div className="bg-white rounded-xl p-4 text-center relative overflow-hidden">
         {/* Trophy and confetti */}
@@ -762,6 +762,8 @@ function ScratchOffCard({
     fontWeight: "bold",
   };
 
+  
+
   const [scratchedCells, setScratchedCells] = useState<boolean[]>(
     card.scratches,
   );
@@ -773,13 +775,17 @@ function ScratchOffCard({
     newScratched[index] = true;
     setScratchedCells(newScratched);
     onScratch(card.id, index);
+     
     // console.log("Cell scratched:", card.prizes);
   const isMobile = window.innerWidth < 768;
   if (isMobile) {
+    
     setHoveredContent(
       hidePrizes ? "?" : `${card.prizes[index]} ${card.prizeValues[index]}`
     );
-    setTimeout(() => setHoveredContent(null), 3000);
+    
+   
+    setTimeout(() => setHoveredContent(null), 5000);
 
   }
   };
@@ -808,19 +814,31 @@ function ScratchOffCard({
             backgroundPosition: "center",
           }}
         ></div>
-        {hoveredContent && (
-          <div className="fixed top-4 left-4 z-50 bg-yellow-400 text-black border-2 border-yellow-400 p-4 rounded shadow-lg w-40 h-40">
-            <div className="text-black text-sm flex text leading-tight"   style={{
-            fontWeight: "lighter",
-            fontFamily: "Montserrat, sans-serif",
-            fontSize: "0.8rem",
-            lineHeight: "1.5",
-            textAlign: "center",
-          }}>
-              {hoveredContent}
-            </div>
-          </div>
-        )}
+      {hoveredContent && (() => {
+  const words = hoveredContent.split(" ");
+  const heading = words.slice(0, 2).join(" ");
+  const normalText = words.slice(2, words.length - 1).join(" ");
+  const price = words[words.length - 1]; // Assume last word is always price (₹100, etc.)
+
+  return (
+    <div className="fixed top-4 left-4 z-50 bg-yellow-400 text-black border-2 border-yellow-400 p-4 rounded shadow-lg w-40 h-40">
+      <div
+        className="flex flex-col items-center justify-center w-full h-full text-center"
+        style={{
+          fontFamily: "Montserrat, sans-serif",
+          fontSize: "0.75rem",
+          lineHeight: "1.2",
+        }}
+      >
+        <div className="font-bold text-black mb-1">{heading}</div>
+        <div className="text-black mb-1">{normalText}</div>
+        <div className="font-bold text-green-700 text-sm">{price}</div>
+      </div>
+    </div>
+  );
+})()}
+
+
 
 
         {/* Inner content area */}
